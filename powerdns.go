@@ -159,6 +159,13 @@ func (p *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 			Message:    "Unauthorized",
 		}
 	}
+	if resp.StatusCode == 404 {
+		return resp, &Error{
+			Status:     resp.Status,
+			StatusCode: resp.StatusCode,
+			Message:    "Not Found",
+		}
+	}
 
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		defer func() {
